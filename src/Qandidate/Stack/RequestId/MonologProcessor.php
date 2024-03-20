@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Qandidate\Stack\RequestId;
 
+use Monolog\LogRecord;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
@@ -37,7 +38,7 @@ class MonologProcessor
         $this->requestId = (string) $request->headers->get($this->header, '');
     }
 
-    public function __invoke(array $record): array
+    public function __invoke(LogRecord $record): LogRecord
     {
         if ($this->requestId) {
             $record['extra']['request_id'] = $this->requestId;
